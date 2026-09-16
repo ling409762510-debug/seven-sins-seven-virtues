@@ -2,7 +2,8 @@
 
 30 道原创情境题、14 个独立维度的娱乐型自我觉察网站。黑金酒红视觉，移动端优先。输入昵称开始，点击答案自动前进，每 10 题给出阶段小结；报告结合具体回答、情境差异与内在资源生成。
 
-- 计划发布地址（尚未上线）：https://ling409762510-debug.github.io/seven-sins-seven-virtues/
+- 在线测试：https://ling409762510-debug.github.io/seven-sins-seven-virtues/
+- 源码仓库：https://github.com/ling409762510-debug/seven-sins-seven-virtues
 - 统一测试码：`SEVEN2026`（可重复使用）
 - [买家使用指引](docs/买家使用指引.md)
 - [维护与部署说明](docs/维护与部署说明.md)
