@@ -1,1 +1,39 @@
-# seven-sins-seven-virtues
+# 七宗罪 | 七美德
+
+30 道原创情境题、14 个独立维度的娱乐型自我觉察网站。黑金酒红视觉，移动端优先。输入昵称开始，点击答案自动前进，每 10 题给出阶段小结；报告结合具体回答、情境差异与内在资源生成。
+
+- 计划发布地址（尚未上线）：https://ling409762510-debug.github.io/seven-sins-seven-virtues/
+- 统一测试码：`SEVEN2026`（可重复使用）
+- [买家使用指引](docs/买家使用指引.md)
+- [维护与部署说明](docs/维护与部署说明.md)
+- [计分与触发因素映射](docs/计分说明.md)
+
+## 本地运行
+
+构建后的 `dist/standalone.html` 是完整的单文件版，可用电脑浏览器直接打开，无需安装依赖或联网。也可打开交付包中的“七宗罪七美德-即开即用.html”。本地文件的存储支持因浏览器而异；正式访问优先使用部署后的网址。
+
+需要 Node.js 22 或以上。
+
+```sh
+npm ci
+npm test
+npm run build
+npm start
+```
+
+访问 http://127.0.0.1:4173 。修改源文件后重新运行 `npm run build`。
+
+## 发布
+
+GitHub 仓库 Settings → Pages → Source 选择 **GitHub Actions**。推送 main 后，自动检查、构建并部署。源码变更前须运行测试。
+
+## 边界
+
+纯静态网站；没有账户、服务器、订单、支付或核销。测试码是可分享、可绕过的轻量入口，不构成付费内容保护。答案与报告只保存在当前浏览器，不上传，清理浏览器数据后无法恢复。
+
+问卷为原创娱乐内容，未经心理量表信效度验证，不用于诊断、道德评定或人群百分位比较。
+
+GitHub Pages 对商业用途有限制，不应将此托管方案描述为适合正式付费运营。参见 [GitHub 官方限制](https://docs.github.com/zh/pages/getting-started-with-github-pages/github-pages-limits)。
+
+所有界面和问卷重新实现，未包含参考附件原图或参考产品品牌。图片导出依赖 html2canvas 1.4.1（MIT，许可随构建文件保留）。
+

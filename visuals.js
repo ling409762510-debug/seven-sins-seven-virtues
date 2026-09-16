@@ -1,0 +1,17 @@
+import { DIMENSIONS } from './content.js';
+const point = (angle,r,cx=280,cy=280) => [cx+Math.cos(angle)*r,cy+Math.sin(angle)*r];
+const coords = p => p.map(n=>n.toFixed(2)).join(',');
+export function orbital() {
+  const names=['傲慢','贪婪','色欲','嫉妒','暴怒','暴食','懒惰'];
+  const pts=names.map((_,i)=>point(-Math.PI/2+i*2*Math.PI/7,157,220,220));
+  return `<svg class="orbital" viewBox="0 0 440 440" role="img" aria-label="七宗罪主题圆环：${names.join('、')}"><defs><radialGradient id="orb-glow"><stop stop-color="#a12b3e" stop-opacity=".55"/><stop offset="1" stop-color="#3e1820" stop-opacity="0"/></radialGradient><linearGradient id="diamond" x2="1" y2="1"><stop stop-color="#7b3438"/><stop offset="1" stop-color="#30191d"/></linearGradient></defs><circle cx="220" cy="220" r="195" fill="url(#orb-glow)" stroke="#51402d" stroke-width=".8"/><circle cx="220" cy="220" r="171" fill="none" stroke="#6d5132" stroke-width=".6"/><circle cx="220" cy="220" r="117" fill="none" stroke="#6d5132" stroke-width=".6"/>${pts.map(p=>`<path d="M220 220 L${coords(p)}" stroke="#816242" stroke-width=".6"/>`).join('')}<polygon points="${pts.map(coords).join(' ')}" fill="none" stroke="#6a4733" stroke-width=".6"/><path d="M220 144 296 220 220 296 144 220Z" fill="url(#diamond)" stroke="#b5945d"/><path d="M220 153 287 220 220 287 153 220Z" fill="none" stroke="#aa764d" stroke-width=".5"/><text x="220" y="239" fill="#f1dfb5" text-anchor="middle" font-family="Georgia,serif" font-size="62">VII</text>${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="32" fill="#171215" stroke="#866a42" stroke-width=".8"/><text x="${p[0]}" y="${p[1]+6}" text-anchor="middle" fill="#dbc7a2" font-family="serif" font-size="17">${names[i]}</text>`).join('')}<path d="M220 9v12M220 419v12M9 220h12M419 220h12" stroke="#a18558"/></svg>`;
+}
+
+// Top left -> left -> bottom left, then bottom right -> right -> top right.
+export const RADAR_IDS=['pride','gluttony','greed','sloth','wrath','envy','lust','chastity','temperance','generosity','diligence','patience','kindness','humility'];
+export function radar(scores) {
+  const angles = RADAR_IDS.map((_,i)=>-Math.PI/2-Math.PI/14-i*2*Math.PI/14);
+  const p = (i,r)=>point(angles[i],r);
+  const path = (indices) => `280,280 ${indices.map(i=>coords(p(i,178*scores[RADAR_IDS[i]]/100))).join(' ')} 280,280`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" class="radar" viewBox="0 0 560 560" role="img" aria-label="十四维雷达图，左侧七宗罪，右侧七美德。各维度分数见下方明细。"><circle cx="280" cy="280" r="207" fill="#211a1c"/>${[.25,.5,.75,1].map(r=>`<polygon points="${angles.map((_,i)=>coords(p(i,178*r))).join(' ')}" fill="none" stroke="#51434a" stroke-width="1"/>`).join('')}${angles.map((_,i)=>`<line x1="280" y1="280" x2="${p(i,178)[0]}" y2="${p(i,178)[1]}" stroke="#51434a" stroke-width="1"/>`).join('')}<polygon points="${path([0,1,2,3,4,5,6])}" fill="#d97384" fill-opacity=".15" stroke="#d97384" stroke-width="2.5"/><polygon points="${path([7,8,9,10,11,12,13])}" fill="#d4b77b" fill-opacity=".17" stroke="#d4b77b" stroke-width="2.5"/>${angles.map((_,i)=>{const id=RADAR_IDS[i],d=DIMENSIONS.find(d=>d.id===id),q=p(i,178*scores[id]/100),label=p(i,232),color=i<7?'#eaa4af':'#e2c890';return `<circle cx="${q[0]}" cy="${q[1]}" r="3.5" fill="${color}"/><text x="${label[0]}" y="${label[1]-4}" text-anchor="middle" fill="${color}" font-family="sans-serif" font-size="18">${d.name}</text><text x="${label[0]}" y="${label[1]+20}" text-anchor="middle" fill="${color}" font-family="Georgia,serif" font-size="20">${scores[id]}</text>`}).join('')}<circle cx="280" cy="280" r="3" fill="#d4b77b"/></svg>`;
+}

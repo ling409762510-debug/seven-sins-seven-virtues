@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#100e10">
+  <meta name="description" content="七宗罪与七美德，十四种内在倾向。30 道原创情境题，每 10 题一段小结，为你生成带昵称与作答线索的专属报告。娱乐型自我觉察测试。">
+  <title>七宗罪 | 七美德</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./vendor/html2canvas.min.js" defer></script>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="masthead"><a href="#" id="home-link" aria-label="返回首页"><span class="seal" aria-hidden="true">VII</span><span>七宗罪 <i>|</i> 七美德</span></a><span class="mast-note">自我探索档案</span></header>
+  <main id="app"></main>
+  <p id="storage-notice" role="status" class="storage-notice" hidden></p>
+  <footer class="site-footer"><span>SEVEN SINS · SEVEN VIRTUES</span><p>看见自己的不同面向，也看见选择的余地。</p></footer>
+  <dialog id="restart-dialog"><div class="dialog-body"><span class="eyebrow">NEW CHAPTER</span><h2>开始一份新档案？</h2><p>这会替换当前浏览器里保存的进度和报告。你可以先保存报告图片。</p><div class="dialog-actions"><button id="cancel-restart" class="secondary">保留当前记录</button><button id="confirm-restart" class="primary">重新测试</button></div></div></dialog>
+  <dialog id="export-dialog"><div class="dialog-body"><div class="section-top"><h2>保存你的档案</h2><button id="close-export" class="text-button">关闭</button></div><p id="export-status" role="status">正在生成图片…</p><div id="export-images"></div></div></dialog>
+  <noscript><p class="noscript">请开启浏览器的 JavaScript 功能后进行测试。</p></noscript>
+</body>
+</html>
