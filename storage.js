@@ -8,14 +8,14 @@ export function validateState(data) {
   if (data.stage==='checkpoint' && (![10,20,30].includes(data.checkpoint)||!data.answers.slice(0,data.checkpoint).every(validAnswer))) return null;
   if (data.completedAt!==null && (!data.answers.every(validAnswer)||!Number.isFinite(Date.parse(data.completedAt)))) return null;
   if (data.stage==='result'&&!data.completedAt)return null;
-  if (!data.unlocked)data.stage='home';
-  return data;
+  // Access is granted only for the current page visit, never by saved data.
+  return {...data,unlocked:false};
 }
 export function loadState(storage) {
   try{return {state:validateState(JSON.parse(storage.getItem(CONFIG.storageKey)))||freshState(),available:true};}
   catch{return {state:freshState(),available:false};}
 }
 export function saveState(storage,state) {
-  try{storage.setItem(CONFIG.storageKey,JSON.stringify(state));return true;}
+  try{storage.setItem(CONFIG.storageKey,JSON.stringify({...state,unlocked:false}));return true;}
   catch{return false;}
 }

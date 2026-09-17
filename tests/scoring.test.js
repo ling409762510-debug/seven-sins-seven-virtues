@@ -38,7 +38,7 @@ test('shared code tolerates outer whitespace and case; invalid inputs rejected',
 test('state saves/resumes, rejects incompatible or corrupt data and degrades without storage',()=>{
   const map=new Map(),store={getItem:k=>map.get(k)??null,setItem:(k,v)=>map.set(k,v)};
   const state=freshState();state.unlocked=true;state.nickname="测试者";state.stage='quiz';state.answers[0]=3;state.current=1;
-  assert.equal(saveState(store,state),true);assert.deepEqual(loadState(store).state,state);
+  assert.equal(saveState(store,state),true);assert.deepEqual(loadState(store).state,{...state,unlocked:false});
   assert.equal(validateState({...state,version:99}),null);assert.equal(validateState({...state,current:30}),null);
   assert.equal(validateState({...state,stage:'result'}),null);assert.equal(saveState(null,state),false);assert.equal(loadState(null).available,false);
   const resultState={...state,stage:'result',answers:Array(30).fill(2),completedAt:'2026-09-15T00:00:00.000Z'};assert.ok(validateState(resultState));
@@ -73,4 +73,16 @@ test('nickname limits and checkpoint/result persistence validation',()=>{
   s.answers.fill(2,0,10);assert.ok(validateState(s));
   assert.equal(validateState({...s,checkpoint:20}),null);
   assert.equal(validateState({...s,nickname:''}),null);
+});
+
+test('every visit requires code, including legacy unlocked results and checkpoints',()=>{
+  const completed={...freshState(),unlocked:true,nickname:'小杏',stage:'result',answers:Array(30).fill(2),completedAt:'2026-09-16T00:00:00Z'};
+  const store={getItem:()=>JSON.stringify(completed)};
+  const restored=loadState(store).state;
+  assert.equal(restored.unlocked,false);
+  assert.equal(restored.stage,'result');
+  assert.deepEqual(restored.answers,completed.answers);
+  const partial={...completed,stage:'checkpoint',checkpoint:20,completedAt:null,answers:[...Array(20).fill(3),...Array(10).fill(null)]};
+  assert.equal(validateState(partial).unlocked,false);
+  assert.equal(validateState(partial).checkpoint,20);
 });
